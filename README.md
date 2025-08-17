@@ -25,29 +25,57 @@ bbup
 
 ## Compile Circuit 
 
-Run 'nargo check' to validate syntax and build your Prover.toml 
+To validate syntax and build your Prover.toml 
+```shell
+nargo check
+```
+To compile the Noir code into an ACIR arithmetic circuit 
 
-Run 'nargo build' to compile the Noir code into an ACIR arithmetic circuit 
+```shell
+nargo build
+```
+To generate a Prover.toml where the ZK witness will go 
 
-Run 'nargo execute' to generate a Prover.toml where the ZK witness will go 
+```shell
+nargo execute
+```
+
 
 ## Generate Proof 
 
-Run 'bb prove -b ./target/ZK_Simple_Circuit.json -w ./target/ZK_Simple_Circuit.gz -o ./target' to generate an off-chain proof -o ./target/verifier.sol 
+To generate an off-chain proof -o ./target/verifier.sol 
 
+
+ ```shell
+bb prove -b ./target/ZK_Simple_Circuit.json -w ./target/ZK_Simple_Circuit.gz -o ./target
+```
 
 ## Verify Proof 
 
 ### Off-Chain Verification
 
-Run 'bb write_vk ./target/ZK_Simple_Circuit.json -o ./target' to create the verification key
+To create the verification key
 
-Run 'bb_verify -k ./target/vk -p ./target/proof ' to actually run the verification  
+```shell
+bb write_vk ./target/ZK_Simple_Circuit.json -o ./target
+```
+To run the verification  
+
+ ```shell
+ bb_verify -k ./target/vk -p ./target/proof 
+```
 
 ## On-Chain Verification
+ 
+ To generate a verification key using keccak hashing, which is optimized for smart contract operations
+```shell
+ bb write_vk --oracle_hash keccack -b ./target/ZK_Simple_Circuit.json -o ./target
+```
+  This will create a verifier smart contract for on-chain verification of Zero-Knowledge proofs. An example is already inside the repository 
+ 
+ ```shell
+  bb write_solidity_verifier -k ./target/vk -p ./target/proof
+```
 
-Run 'bb write_vk --oracle_hash keccack -b ./target/ZK_Simple_Circuit.json -o ./target' This will generate a verification key using keccak hashing, which is optimized for smart contract operations
-
-Run 'bb write_solidity_verifier -k ./target/vk -p ./target/proof'  This will create a verifier smart contract for on-chain verification of Zero-Knowledge proofs. An example is already inside the repository 
 
 
